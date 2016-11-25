@@ -24,6 +24,6 @@ docker run -i -t fabric:latest /bin/bash
 
 ```
 cd hyperledger-demo/docker/fabric-cop
-docker build -t fabric:latest .
+docker build -t fabric-cop:latest .
 docker run -i -t fabric-cop:latest /bin/bash
 ```
