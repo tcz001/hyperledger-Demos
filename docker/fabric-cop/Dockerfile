@@ -19,4 +19,10 @@ RUN mkdir -p $GOPATH/src/github.com/hyperledger \
         && go clean \
         && make cop
 
-WORKDIR $GOPATH/src/github.com/hyperledger/fabric-cop
+ENV PATH $PATH:$GOPATH/src/github.com/hyperledger/fabric-cop/bin
+
+# Initialize cop server
+ENV COP_HOME=/tmp/cop
+WORKDIR $COP_HOME
+ADD workspace/* ./
+RUN cop server init ./csr_dsa.json

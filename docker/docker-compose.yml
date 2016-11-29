@@ -1,0 +1,11 @@
+version: '2'
+services:
+    cop:
+        expose:
+            - "8888"
+        hostname: cop
+        build: ./fabric-cop
+        environment:
+            - COP_DEBUG=true
+        entrypoint:
+            - ./start.sh
