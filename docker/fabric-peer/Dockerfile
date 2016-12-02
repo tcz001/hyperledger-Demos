@@ -8,6 +8,11 @@ MAINTAINER Fan Jiang <fan.torchz@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
+# Install hyperledger fabric
+RUN mkdir -p $GOPATH/src/github.com/hyperledger \
+        && cd $GOPATH/src/github.com/hyperledger \
+        && git clone --single-branch -b master --depth 1 http://gerrit.hyperledger.org/r/fabric
+
 # Prepare to build rocksdb
 ## Upgrade your gcc to version at least 4.7 to get C++11 support.
 RUN apt-get update -y && apt-get install -y build-essential checkinstall
@@ -27,15 +32,8 @@ RUN cd /tmp \
 RUN mkdir -p /var/hyperledger/db \
         && mkdir -p /var/hyperledger/production
 
-# Install hyperledger fabric
-RUN mkdir -p $GOPATH/src/github.com/hyperledger \
-        && cd $GOPATH/src/github.com/hyperledger \
-        && git clone --single-branch -b master --depth 1 http://gerrit.hyperledger.org/r/fabric \
-        && cd $GOPATH/src/github.com/hyperledger/fabric/peer \
+# Build hyperledger peer
+RUN cd $GOPATH/src/github.com/hyperledger/fabric/peer \
         && CGO_CFLAGS=" " CGO_LDFLAGS="-lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy" go install \
         && go clean
 
-# This is to keep compatible
-RUN PATH=$GOPATH/src/github.com/hyperledger/fabric/build/bin:$PATH
-
-WORKDIR $GOPATH/src/github.com/hyperledger/fabric

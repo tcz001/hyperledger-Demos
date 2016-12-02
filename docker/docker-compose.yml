@@ -1,11 +1,32 @@
 version: '2'
 services:
     cop:
+        container_name: cop
         expose:
-            - "8888"
-        hostname: cop
+            - 8888
         build: ./fabric-cop
         environment:
             - COP_DEBUG=true
-        entrypoint:
+        command:
             - ./start.sh
+    orderer:
+        container_name: orderer
+        hostname: orderer
+        expose:
+            - 7050
+        build: ./fabric-orderer
+        command: orderer
+    peer:
+        container_name: peer
+        expose:
+            - 7051
+            - 7052
+            - 7053
+        links:
+            - orderer
+        build: ./fabric-peer
+        environment:
+            - CORE_PEER_ADDRESSAUTODETECT=true
+            - CORE_PEER_COMMITTER_LEDGER_ORDERER=orderer:7050
+            - CORE_LOGGING_LEVEL=DEBUG
+        command: peer node start
