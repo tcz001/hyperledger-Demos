@@ -34,6 +34,8 @@ RUN mkdir -p /var/hyperledger/db \
 
 # Build hyperledger peer
 RUN cd $GOPATH/src/github.com/hyperledger/fabric/peer \
-        && CGO_CFLAGS=" " CGO_LDFLAGS="-lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy" go install \
+        && CGO_CFLAGS=" " CGO_LDFLAGS="-lrocksdb -lstdc++ -lm -lz -lbz2 -lsnappy" go install -ldflags "-X github.com/hyperledger/fabric/metadata.Version=0.6.1-preview" \
         && go clean
 
+WORKDIR /tmp/peer/
+ADD workspace/* ./

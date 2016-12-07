@@ -29,4 +29,7 @@ services:
             - CORE_PEER_ADDRESSAUTODETECT=true
             - CORE_PEER_COMMITTER_LEDGER_ORDERER=orderer:7050
             - CORE_LOGGING_LEVEL=DEBUG
+            - CORE_VM_ENDPOINT=unix:///var/run/docker.sock
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
         command: peer node start

@@ -16,7 +16,7 @@ General:
     # Ledger Type: The ledger type to provide to the orderer (if needed)
     # Available types are "ram", "file". When "kafka" is chosen as the
     # OrdererType, this option is ignored.
-    LedgerType: ram
+    LedgerType: file
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 10s
