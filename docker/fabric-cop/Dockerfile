@@ -17,7 +17,7 @@ RUN mkdir -p $GOPATH/src/github.com/hyperledger \
         && cd $GOPATH/src/github.com/hyperledger/fabric-cop \
         && go install \
         && go clean \
-        && make cop
+        && mkdir -p bin && cd cli && go build -o ../bin/cop
 
 ENV PATH $PATH:$GOPATH/src/github.com/hyperledger/fabric-cop/bin
 
